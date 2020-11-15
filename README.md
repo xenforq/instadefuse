@@ -18,7 +18,17 @@
 
 <!-- ABOUT -->
 ## Instant Defuse
-Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@teamorbitone](https://github.com/teamorbitone) to update and maintain it to make sure it meets the expectations of today CS:GO and CS:S server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
+Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@teamorbitone](https://github.com/teamorbitone) to update and maintain it to make sure it meets the expectations of today CS:GO server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
+
+<!-- CVARS -->
+## Cvars
+``instadefuse_questionable`` — To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. **Default 5.2**
+
+``instadefuse_auto_explode`` — Toggle to make defuses with no chance trigger the bomb explostion instantly. Requires ``instadefuse_questionable`` to be ``0.0``. **Default: 0**
+
+``instadefuse_inferno_duration`` — The active duration of molotovs. **Default: 7.0**
+
+``instadefuse_inferno_distance`` — The maximum spread distance of molotovs. **Default: 225.0**
 
 <!-- LICENSE -->
 ## License
