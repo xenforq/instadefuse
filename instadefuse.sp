@@ -8,16 +8,12 @@ new EngineVersion:GameName;
 
 #undef REQUIRE_PLUGIN
 #tryinclude <autoexecconfig>
-#tryinclude <updater>
-
-#define UPDATE_URL "https://raw.githubusercontent.com/eyal282/AlliedmodsUpdater/master/InstantDefuse/updatefile.txt"
 
 #define PREFIX "\x01[\x05Retakes\x01] "
 
-new const String:PLUGIN_VERSION[] = "1.8";
+new const String:PLUGIN_VERSION[] = "1.0.2";
 
 new Handle:hcv_NoobMargin = INVALID_HANDLE;
-new Handle:hcv_PrefDefault = INVALID_HANDLE;
 new Handle:hcv_AutoExplode = INVALID_HANDLE;
 
 new Handle:hcv_InfernoDuration = INVALID_HANDLE;
@@ -25,8 +21,6 @@ new Handle:hcv_InfernoDistance = INVALID_HANDLE;
 
 new Handle:fw_OnInstantDefusePre = INVALID_HANDLE;
 new Handle:fw_OnInstantDefusePost = INVALID_HANDLE;
-
-new Handle:hCookie_Enable = INVALID_HANDLE;
 
 new Float:LastDefuseTimeLeft;
 
@@ -36,7 +30,7 @@ new ForceUseEntity[MAXPLAYERS+1];
 
 public Plugin:myinfo =
 {
-	name = "Instadefuse",
+	name = "instadefuse",
 	author = "Orbit One",
 	description = "Allows you to instantly defuse the bomb when all terrorists are dead and nothing can stop the defuse.",
 	version = PLUGIN_VERSION,
@@ -49,7 +43,7 @@ public OnPluginStart()
 	
 	#if defined _autoexecconfig_included
 	
-	AutoExecConfig_SetFile("InstantDefuse");
+	AutoExecConfig_SetFile("instadefuse");
 	
 	#endif
 	
@@ -64,36 +58,26 @@ public OnPluginStart()
 	HookEvent("player_death", Event_AttemptInstantDefuse, EventHookMode_PostNoCopy);
 	HookEvent("round_start", Event_RoundStart, EventHookMode_PostNoCopy);
 	
-	SetConVarString(CreateConVar("instant_defuse_version", PLUGIN_VERSION), PLUGIN_VERSION);
+	SetConVarString(CreateConVar("instadefuse_version", PLUGIN_VERSION), PLUGIN_VERSION);
 	
-	hcv_NoobMargin = UC_CreateConVar("instant_defuse_noob_margin", "5.2", "To prevent noobs from instantly running for their lives when instant defuse fails, instant defuse won't activate if defuse may be uncertain to the player", FCVAR_NOTIFY);
-	hcv_AutoExplode = UC_CreateConVar("instant_defuse_auto_explode", "0", "Set to 1 to make defuses with no chance to happen explode the bomb instantly. Noob margin must be set to 0.0", FCVAR_NOTIFY);
-	hcv_PrefDefault = UC_CreateConVar("instant_defuse_pref_default", "1", "If 1, new players will have instant defuse preference enabled by default");
+	hcv_NoobMargin = UC_CreateConVar("instadefuse_questionable", "5.2", "To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold.", FCVAR_NOTIFY);
+	hcv_AutoExplode = UC_CreateConVar("instadefuse_auto_explode", "0.0", "Toggle to make defuses with no chance trigger the bomb explostion instantly. Requires instadefuse_questionable to be 0.0.", FCVAR_NOTIFY);
 	
 	if(isCSGO())
 	{
-		hcv_InfernoDuration = UC_CreateConVar("instant_defuse_inferno_duration", "7.0", "If Valve ever changed the duration of molotov, this cvar should change with it");
-		hcv_InfernoDistance = UC_CreateConVar("instant_defuse_inferno_distance", "225.0", "If Valve ever changed the maximum distance spread of molotov, this cvar should change with it");
+		hcv_InfernoDuration = UC_CreateConVar("instadefuse_inferno_duration", "7.0", "The active duration of molotovs in seconds.");
+		hcv_InfernoDistance = UC_CreateConVar("instadefuse_inferno_distance", "225.0", "The maximum spread distance of molotovs.");
 	}
 	
-	fw_OnInstantDefusePre = CreateGlobalForward("InstantDefuse_OnInstantDefusePre", ET_Event, Param_Cell, Param_Cell);
-	fw_OnInstantDefusePost = CreateGlobalForward("InstantDefuse_OnInstantDefusePost", ET_Ignore, Param_Cell, Param_Cell);
-	// public Action InstantDefuse_OnInstantDefusePre(int client, int c4)
-	// return Plugin_Handled or return Plugin_Stop in order to stop instant defuse from happening
-	
-	// public void InstantDefuse_OnInstantDefusePost(int client, int c4)
+	fw_OnInstantDefusePre = CreateGlobalForward("InstaDefuse_OnInstantDefusePre", ET_Event, Param_Cell, Param_Cell);
+	fw_OnInstantDefusePost = CreateGlobalForward("InstaDefuse_OnInstantDefusePost", ET_Ignore, Param_Cell, Param_Cell);
 	
 	#if defined _autoexecconfig_included
 	
 	AutoExecConfig_ExecuteFile();
-
 	AutoExecConfig_CleanFile();
 	
 	#endif
-	
-	hCookie_Enable = RegClientCookie("InstantDefuse_Enabled", "Whether or not to enable instant defuse when it's guaranteed to succeed", CookieAccess_Public);
-	
-	SetCookieMenuItem(InstantDefuseCookieMenu_Handler, 0, "Instant Defuse");
 	
 	#if defined _updater_included
 	if (LibraryExists("updater"))
@@ -101,64 +85,6 @@ public OnPluginStart()
 		Updater_AddPlugin(UPDATE_URL);
 	}
 	#endif
-}
-
-
-#if defined _updater_included
-public Updater_OnPluginUpdated()
-{
-	ReloadPlugin(INVALID_HANDLE);
-}
-#endif
-
-public OnLibraryAdded(const String:name[])
-{
-	#if defined _updater_included
-	if (StrEqual(name, "updater"))
-	{
-		Updater_AddPlugin(UPDATE_URL);
-	}
-	#endif
-}
-
-public InstantDefuseCookieMenu_Handler(client, CookieMenuAction:action, info, String:buffer[], maxlen)
-{
-	ShowInstantDefusePrefMenu(client);
-} 
-public ShowInstantDefusePrefMenu(client)
-{
-	new Handle:hMenu = CreateMenu(InstantDefusePrefMenu_Handler);
-	
-	new String:TempFormat[64];
-	Format(TempFormat, sizeof(TempFormat), "Instant Defuse: %s", IsClientInstantDefusePref(client) ? "Enabled" : "Disabled");
-	AddMenuItem(hMenu, "", TempFormat);	
-
-	SetMenuExitBackButton(hMenu, true);
-	SetMenuExitButton(hMenu, true);
-	DisplayMenu(hMenu, client, 30);
-}
-
-
-public InstantDefusePrefMenu_Handler(Handle:hMenu, MenuAction:action, client, item)
-{
-	if(action == MenuAction_DrawItem)
-	{
-		return ITEMDRAW_DEFAULT;
-	}
-	else if(item == MenuCancel_ExitBack)
-	{
-		ShowCookieMenu(client);
-	}
-	else if(action == MenuAction_Select)
-	{
-		if(item == 0)
-		{
-			SetClientInstantDefusePref(client, !IsClientInstantDefusePref(client));
-		}
-		
-		ShowInstantDefusePrefMenu(client);
-	}
-	return 0;
 }
 
 
@@ -209,11 +135,7 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 {
  	LastDefuseTimeLeft = -1.0;
 	
-	// Required to ensure calculating the time left for defuse success is accurate.
 	if(!GetEntProp(client, Prop_Send, "m_bIsDefusing"))
-		return;
-		
-	else if(!IsClientInstantDefusePref(client))
 		return;
 		
 	new StartEnt = MaxClients + 1;
@@ -238,12 +160,12 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 				case false:
 				{
 					PrintToChatAll("%sOops, too late. The bomb is exploding.", PREFIX);
-					PrintHintTextToAll("<font color=\"#FF0000\">Oops, too late.</font>\nYou were %.3f seconds too late.", LastDefuseTimeLeft);
+					PrintToChatAll("%s%N was \x09%.3f seconds \x01too late to defusing the bomb.", PREFIX, client, LastDefuseTimeLeft);
 				}
 			}
 		}	
 		else
-			PrintToChatAll("%sDefuse not certain enough, Good luck defusing!", PREFIX);
+			PrintToChatAll("%sTime is ticking. Good luck defusing!", PREFIX);
 		
 		LastDefuseTimeLeft = -1.0;
 		
@@ -300,7 +222,6 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 		
 		return;
 	}
-	// These two force the player to have the bomb as pressed E, also reduce the defuse timer.
 	ForceUseEntity[client] = 30;
 	SDKUnhook(client, SDKHook_PreThink, OnClientPreThink);
 	SDKHook(client, SDKHook_PreThink, OnClientPreThink);
@@ -337,27 +258,6 @@ public Action:OnClientPreThink(client)
 	SetEntPropFloat(c4, Prop_Send, "m_flDefuseLength", 0.0);
 	SetEntProp(client, Prop_Send, "m_iProgressBarDuration", 0);
 
-}
-
-stock PrintToChatEyal(const String:format[], any:...)
-{
-	new String:buffer[291];
-	VFormat(buffer, sizeof(buffer), format, 2);
-	for(new i=1;i <= MaxClients;i++)
-	{
-		if(!IsClientInGame(i))
-			continue;
-		
-		else if(IsFakeClient(i))
-			continue;
-			
-
-		new String:steamid[64];
-		GetClientAuthId(i, AuthId_Steam2, steamid, sizeof(steamid));
-		
-		if(StrEqual(steamid, "STEAM_1:0:49508144"))
-			PrintToChat(i, buffer);
-	}
 }
 
 
@@ -479,31 +379,8 @@ stock FindAlivePlayer(Team)
 	return 0;
 }
 
-stock SetClientInstantDefusePref(client, bool:enabled)
-{
-	new String:Value[4];
-	IntToString(view_as<int>(enabled), Value, sizeof(Value));
-	
-	SetClientCookie(client, hCookie_Enable, Value);
-}
 
-stock bool:IsClientInstantDefusePref(client)
-{
-	new String:Value[4];
-	GetClientCookie(client, hCookie_Enable, Value, sizeof(Value));
-	
-	if(Value[0] == EOS)
-	{
-		new bool:enabled = GetConVarBool(hcv_PrefDefault);
-		SetClientInstantDefusePref(client, enabled);
-		return enabled;
-	}
-	
-	return view_as<bool>(StringToInt(Value));
-}
-
-// Stolen from me, from Useful Commands.
-
+// From Useful Commands by eyal282
 #if defined _autoexecconfig_included
 
 stock ConVar:UC_CreateConVar(const String:name[], const String:defaultValue[], const String:description[]="", flags=0, bool:hasMin=false, Float:min=0.0, bool:hasMax=false, Float:max=0.0)
