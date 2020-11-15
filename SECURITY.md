@@ -1,13 +1,13 @@
 ## Security Policy
 
-# Supported Versions
+#### Supported Versions
 The following versions of Instadefuse are receiving active support and maintenance. Any security vulnerabilities discovered must be reproducible in the supported versions.
 
 | Version | Supported          |
 | ------- | ------------------ |
 | 1.0.x   | :white_check_mark: |
 
-# Reporting a Vulnerability
+#### Reporting a Vulnerability
 
 Please reach out directly to me via Discord when reporting a security vulnerability, or you can send an email to `hello@xenforq.com`.
 
