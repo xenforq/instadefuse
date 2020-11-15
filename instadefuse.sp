@@ -13,7 +13,7 @@ new EngineVersion:GameName;
 
 new const String:PLUGIN_VERSION[] = "1.0";
 
-new Handle:hcv_NoobMargin = INVALID_HANDLE;
+new Handle:hcv_Questionable = INVALID_HANDLE;
 new Handle:hcv_AutoExplode = INVALID_HANDLE;
 
 new Handle:hcv_InfernoDuration = INVALID_HANDLE;
@@ -60,7 +60,7 @@ public OnPluginStart()
 
 	SetConVarString(CreateConVar("instadefuse_version", PLUGIN_VERSION), PLUGIN_VERSION);
 
-	hcv_NoobMargin = UC_CreateConVar("instadefuse_questionable", "5.2", "To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. Default 5.2", FCVAR_NOTIFY);
+	hcv_Questionable = UC_CreateConVar("instadefuse_questionable", "5.2", "To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. Default 5.2", FCVAR_NOTIFY);
 	hcv_AutoExplode = UC_CreateConVar("instadefuse_auto_explode", "0", "Toggle to make defuses with no chance trigger the bomb explostion instantly. Requires instadefuse_questionable to be 0.0. Default: 0.0", FCVAR_NOTIFY);
 
 	if(isCSGO())
@@ -153,9 +153,9 @@ stock Attemptinstadefuse(client, exemptNade = 0)
 
 	LastDefuseTimeLeft = GetEntPropFloat(c4, Prop_Send, "m_flDefuseCountDown") - GetEntPropFloat(c4, Prop_Send, "m_flC4Blow");
 
-	if(GetEntPropFloat(c4, Prop_Send, "m_flC4Blow") - GetConVarFloat(hcv_NoobMargin) < GetEntPropFloat(c4, Prop_Send, "m_flDefuseCountDown"))
+	if(GetEntPropFloat(c4, Prop_Send, "m_flC4Blow") - GetConVarFloat(hcv_Questionable) < GetEntPropFloat(c4, Prop_Send, "m_flDefuseCountDown"))
 	{
-		if(GetConVarFloat(hcv_NoobMargin) == 0.0)
+		if(GetConVarFloat(hcv_Questionable) == 0.0)
 		{
 			switch(GetConVarBool(hcv_AutoExplode))
 			{
