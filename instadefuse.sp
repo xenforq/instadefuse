@@ -12,7 +12,7 @@ new EngineVersion:GameName;
 
 #define UPDATE_URL "https://raw.githubusercontent.com/eyal282/AlliedmodsUpdater/master/InstantDefuse/updatefile.txt"
 
-#define PREFIX "\x09[\x04Insta-Defuse\x09]\x01 "
+#define PREFIX "\x01[\x05Retakes\x01] "
 
 new const String:PLUGIN_VERSION[] = "1.8";
 
@@ -34,11 +34,11 @@ new Handle:hTimer_MolotovThreatEnd = INVALID_HANDLE;
 
 new ForceUseEntity[MAXPLAYERS+1];
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
-	name = "Instant Defuse",
-	author = "Eyal282",
-	description = "Allows you to instantly defuse the bomb when all T are dead and nothing can stop the defuse.",
+	name = "Instadefuse",
+	author = "Orbit One",
+	description = "Allows you to instantly defuse the bomb when all terrorists are dead and nothing can stop the defuse.",
 	version = PLUGIN_VERSION,
 	url = ""
 }
@@ -184,7 +184,7 @@ public Action:Event_BombDefused(Handle:hEvent, const String:Name[], bool:dontBro
 		return;
 		
 	if(LastDefuseTimeLeft != -1.0)
-		PrintToChatAll("%s%N\x02 insta-defused the bomb with\x09 %.3f seconds\x01 left.", PREFIX, client, -1.0 * LastDefuseTimeLeft);
+		PrintToChatAll("%s%N \x05defused \x01the bomb with \x09%.3f seconds \x01left.", PREFIX, client, -1.0 * LastDefuseTimeLeft);
 }
 
 public Action:Event_BombBeginDefuse(Handle:hEvent, const String:Name[], bool:dontBroadcast)
@@ -237,8 +237,8 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 				case true:	SetEntPropFloat(c4, Prop_Send, "m_flC4Blow", 0.0);
 				case false:
 				{
-					PrintToChatAll("%sTOO LATE!!! RUNNNNNNNNN!!!", PREFIX);
-					PrintHintTextToAll("<font color=\"#FF0000\">TOO LATE!!!\nRUNNNNNNNNN!!!</font>\nYou were %.3f seconds late.", LastDefuseTimeLeft);
+					PrintToChatAll("%sOops, too late. The bomb is exploding.", PREFIX);
+					PrintHintTextToAll("<font color=\"#FF0000\">Oops, too late.</font>\nYou were %.3f seconds too late.", LastDefuseTimeLeft);
 				}
 			}
 		}	
@@ -255,7 +255,7 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 	{
 		if(ent != exemptNade)
 		{
-			PrintToChatAll("%sThere is a live nade somewhere, Good luck defusing!", PREFIX);
+			PrintToChatAll("%sThere is an active grenade somewhere. Good luck defusing!", PREFIX);
 			
 			LastDefuseTimeLeft = -1.0;
 			
@@ -269,7 +269,7 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 	{
 		if(ent != exemptNade)
 		{
-			PrintToChatAll("%sThere is a live nade somewhere, Good luck defusing!", PREFIX);
+			PrintToChatAll("%sThere is an active grenade somewhere. Good luck defusing!", PREFIX);
 			
 			LastDefuseTimeLeft = -1.0;
 			
@@ -278,7 +278,7 @@ stock AttemptInstantDefuse(client, exemptNade = 0)
 	}
 	else if(hTimer_MolotovThreatEnd != INVALID_HANDLE)
 	{
-		PrintToChatAll("%sMolotov too close to bomb, Good luck defusing!", PREFIX);
+		PrintToChatAll("%sThere is a molotov close to the bomb. Good luck defusing!", PREFIX);
 		
 		LastDefuseTimeLeft = -1.0;
 		

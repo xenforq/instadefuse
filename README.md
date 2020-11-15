@@ -17,7 +17,7 @@
 </p>
 
 <!-- ABOUT -->
-## Instant Defuse
+## Instant Defuse: DEV
 Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@teamorbitone](https://github.com/teamorbitone) to update and maintain it to make sure it meets the expectations of today CS:GO server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
 
 <!-- CVARS -->
