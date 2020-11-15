@@ -60,13 +60,13 @@ public OnPluginStart()
 
 	SetConVarString(CreateConVar("instadefuse_version", PLUGIN_VERSION), PLUGIN_VERSION);
 
-	hcv_NoobMargin = UC_CreateConVar("instadefuse_noob_margin", "5.2", "To prevent noobs from instantly running for their lives when instant defuse fails, instant defuse won't activate if defuse may be uncertain to the player", FCVAR_NOTIFY);
-	hcv_AutoExplode = UC_CreateConVar("instadefuse_auto_explode", "0", "Set to 1 to make defuses with no chance to happen explode the bomb instantly. Noob margin must be set to 0.0", FCVAR_NOTIFY);
+	hcv_NoobMargin = UC_CreateConVar("instadefuse_questionable", "5.2", "To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. Default 5.2", FCVAR_NOTIFY);
+	hcv_AutoExplode = UC_CreateConVar("instadefuse_auto_explode", "0", "Toggle to make defuses with no chance trigger the bomb explostion instantly. Requires instadefuse_questionable to be 0.0. Default: 0.0", FCVAR_NOTIFY);
 
 	if(isCSGO())
 	{
-		hcv_InfernoDuration = UC_CreateConVar("instadefuse_inferno_duration", "7.0", "If Valve ever changed the duration of molotov, this cvar should change with it");
-		hcv_InfernoDistance = UC_CreateConVar("instadefuse_inferno_distance", "225.0", "If Valve ever changed the maximum distance spread of molotov, this cvar should change with it");
+		hcv_InfernoDuration = UC_CreateConVar("instadefuse_inferno_duration", "7.0", "The active duration of molotovs in seconds. Default: 7.0");
+		hcv_InfernoDistance = UC_CreateConVar("instadefuse_inferno_distance", "225.0", "The maximum spread distance of molotovs. Default: 225.0");
 	}
 
 	fw_OninstadefusePre = CreateGlobalForward("instadefuse_OninstadefusePre", ET_Event, Param_Cell, Param_Cell);
