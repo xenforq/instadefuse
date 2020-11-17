@@ -30,11 +30,11 @@ new ForceUseEntity[MAXPLAYERS+1];
 
 public Plugin:myinfo =
 {
-	name = "instadefuse",
+	name = "Instant Defuse",
 	author = "Orbit One",
-	description = "Allows you to instantly defuse the bomb when all terrorists are dead and nothing can stop the defuse.",
+	description = "Instantly defuse the bomb as Counter-Terrorist. ",
 	version = PLUGIN_VERSION,
-	url = ""
+	url = "https://orbitone.org/"
 }
 
 public OnPluginStart()
