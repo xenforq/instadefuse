@@ -1,24 +1,20 @@
 <!-- HEADER -->
-<p align=center>
-  <a href="https://orbitone.org">
-    <img src="https://raw.githubusercontent.com/teamorbitone/branding/main/Wordmarks/Color.png" alt="The wordmark of Orbit One.">
-  </a>
-</p>
+<a href="https://williamhallin.com"><img src="https://raw.githubusercontent.com/whallin/whallin/master/img_header.png" alt="A banner showing the William Hallin logo."></a>
 
 <!-- SHIELDS -->
 <p align=center>
-  <a href="https://github.com/xenforq/instadefuse/releases/">
-    <img src="https://img.shields.io/github/downloads/xenforq/instadefuse/latest/total.svg?style=for-the-badge&color=brightgreen" alt="Shield showing total downloads.">
+  <a href="https://github.com/whallin/instadefuse/releases/">
+    <img src="https://img.shields.io/github/downloads/whallin/instadefuse/latest/total.svg?style=for-the-badge&color=brightgreen" alt="Shield showing total downloads.">
   </a>
-  <a href="https://github.com/xenforq/instadefuse/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/xenforq/instadefuse.svg?style=for-the-badge&color=brightgreen" alt="Shield showing total amount of contributors.">
+  <a href="https://github.com/whallin/instadefuse/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/whallin/instadefuse.svg?style=for-the-badge&color=brightgreen" alt="Shield showing total amount of contributors.">
   </a>
-  <img src="https://badges.pufler.dev/visits/xenforq/instadefuse?style=for-the-badge">
+  <img src="https://badges.pufler.dev/visits/whallin/instadefuse?style=for-the-badge">
 </p>
 
 <!-- ABOUT -->
 ## Instant Defuse
-Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@teamorbitone](https://github.com/teamorbitone) to update and maintain it to make sure it meets the expectations of today CS:GO server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
+Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@whallin](https://github.com/whallin) to update and maintain it to make sure it meets the expectations of today CS:GO server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
 
 <!-- CVARS -->
 ## Cvars
