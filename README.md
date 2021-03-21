@@ -28,4 +28,4 @@ Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked 
 
 <!-- LICENSE -->
 ## License
-xenforq/instadefuse is licensed under the ``GPL-3.0`` license. Read more about it's meaning and effects [here](https://github.com/xenforq/instadefuse/blob/main/LICENSE).
+whallin/instadefuse is licensed under the ``GPL-3.0`` license. Read more about it's meaning and effects [here](https://github.com/whallin/instadefuse/blob/main/LICENSE).
