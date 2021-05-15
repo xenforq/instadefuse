@@ -13,19 +13,29 @@
 </p>
 
 <!-- ABOUT -->
-## Instant Defuse
-Instant Defuse was created by [@eyal282](https://github.com/eyal282) but forked by [@whallin](https://github.com/whallin) to update and maintain it to make sure it meets the expectations of today CS:GO server owners. Making sure that the plugin provides the core features that it should be doing even after major updates.
+## 🎮 instadefuse
+instadefuse was created and developed by [@eyal282](https://github.com/eyal282), but has now turned into a more inactive resource that sadly isn't being maintained. Hence, why this repository exists. We're here to make sure development of this incredibly useful plugin remains active and fixes are made to existing issues. 
+
+instadefuse is made to make games of retake even faster by allowing counter-terrorists to instantly defuse the bomb depending on different factors. All configurable, of course.
 
 <!-- CVARS -->
-## Cvars
-``instadefuse_questionable`` — To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. **Default 5.2**
+## 🚀 Cvars
+- ``instadefuse_questionable`` — To prevent players from running for their lives when instadefuse fails, instadefuse won't become active if the time is below the set threshold. (Default: 5.2 seconds)
+- ``instadefuse_auto_explode`` — Toggle to make defuses with no chance trigger the bomb explosion instantly. 1 = Enabled. 0 = Disabled. (Default: 0) 
+  - Requires ``instadefuse_questionable`` to be ``0.0``.
+- ``instadefuse_inferno_duration`` — The active duration of molotovs. (Default: 7 seconds)
+- ``instadefuse_inferno_distance`` — The maximum spread distance of molotovs. (Default: 225 yards)
 
-``instadefuse_auto_explode`` — Toggle to make defuses with no chance trigger the bomb explostion instantly. Requires ``instadefuse_questionable`` to be ``0.0``. **Default: 0**
+<!-- COMPILE -->
+## ▶️ Compile yourself
+Make compiling easy with [Spider (https://spider.limetech.io/)](https://spider.limetech.io/) or follow [this guide](https://wiki.alliedmods.net/Compiling_SourceMod_Plugins) written on the AlliedModders wiki.
 
-``instadefuse_inferno_duration`` — The active duration of molotovs. **Default: 7.0**
-
-``instadefuse_inferno_distance`` — The maximum spread distance of molotovs. **Default: 225.0**
+<!-- CONTRIBUTORS -->
+## 🤝 Contributors
+<a href="https://github.com/whallin/instadefuse/graphs/contributors"><img src="https://contrib.rocks/image?repo=whallin/instadefuse" /></a>
 
 <!-- LICENSE -->
-## License
+## ⚖️ License
+Copyright © 2021 [William Hallin Multimedia &lt;me@williamhallin.com&gt; (https://www.williamhallin.com)](https://www.williamhallin.com)
+
 whallin/instadefuse is licensed under the ``GPL-3.0`` license. Read more about it's meaning and effects [here](https://github.com/whallin/instadefuse/blob/main/LICENSE).
