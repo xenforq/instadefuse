@@ -13,7 +13,7 @@
 </p>
 
 <!-- ABOUT -->
-## 🎮 instadefuse
+# 🎮 instadefuse
 instadefuse was created and developed by [@eyal282](https://github.com/eyal282), but has now turned into a more inactive resource that sadly isn't being maintained. Hence, why this repository exists. We're here to make sure development of this incredibly useful plugin remains active and fixes are made to existing issues. 
 
 instadefuse is made to make games of retake even faster by allowing counter-terrorists to instantly defuse the bomb depending on different factors. All configurable, of course.
